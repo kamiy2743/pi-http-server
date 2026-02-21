@@ -1,1 +1,1 @@
-../AGENTS.md
+~/workspace/AGENTS.mdを読む

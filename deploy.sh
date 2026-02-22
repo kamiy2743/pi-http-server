@@ -16,4 +16,4 @@ install -m 644 $NGINX_SRC $NGINX_AVAIL
 ln -sfn $NGINX_AVAIL $NGINX_ENABLED
 
 nginx -t
-systemctl reload nginx
+systemctl restart nginx

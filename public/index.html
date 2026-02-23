@@ -3,73 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Study Site</title>
-  <style>
-    :root {
-      --bg: #f7f9fc;
-      --card: #ffffff;
-      --text: #1f2937;
-      --accent: #2563eb;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: "Noto Sans JP", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 880px;
-      margin: 0 auto;
-      padding: 24px;
-    }
-
-    header, main, footer {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 16px;
-    }
-
-    h1, h2 { margin-top: 0; }
-
-    .btn {
-      display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 14px;
-      border-radius: 8px;
-    }
-
-    ul { padding-left: 20px; }
-  </style>
+  <title>Panda Dev Blog | ラズパイでサイト配信するまで</title>
+  <link rel="icon" href="./IMG_0282.JPG" type="image/jpeg" />
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>HTTP Server Study</h1>
-      <p>Nginx 学習用のサンプルページです。</p>
-      <a class="btn" href="#about">詳しく見る</a>
-    </header>
-
-    <main id="about">
-      <section>
-        <h2>このページで確認すること</h2>
-        <ul>
-          <li>Nginx で配信できているか</li>
-          <li>HTML/CSS の反映ができるか</li>
-          <li>更新後に rsync で公開先へ同期できるか</li>
-        </ul>
-      </section>
+  <div class="page">
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <span class="tag">構成メモ</span>
+          <h1>Raspberry Pi + Nginx + Cloudflare Tunnel で<br>サイトを公開する構成</h1>
+          <div class="meta" aria-label="記事メタ情報">
+            <span>更新日: 2026-02-23</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    <main class="article">
+      <!-- Generated from content/article.md by scripts/build_site.py -->
+      <h2 id="what">全体像</h2>
+      <p>このサイトは Raspberry Pi 5 という、手のひらサイズの Linuxマシン上で動いています。<br />サイトのHTMLや画像は Raspberry Pi の中に置いてあり、Nginx というWebサーバーがそれを配信しています。</p>
+      <p>外部公開には Cloudflare Tunnel を使っています。<br />Nginx を直接インターネットへ公開するのではなく、Cloudflare Tunnel 経由にすることで、自宅ルーターのポート開放や固定IP/DDNSの管理に依存しにくい構成にしています。</p>
+      <img src="./diagram-tunnel.png">
+      <h2 id="why-tunnel">Cloudflare Tunnelの仕組み</h2>
+      <p>Cloudflare Tunnel は、Raspberry Pi 側の <code>cloudflared</code> というクライアントが Cloudflare に対して<br />外向きに接続を張り続けることで成立します。<br />この「内側から外側への接続」を使って、外部からのアクセスを安全に中継できます。</p>
+      <p>ポイントは次の2つです。</p>
+      <ul>
+        <li>Raspberry Pi 側から Cloudflare へ接続するため、ルーターのポート開放が不要</li>
+        <li>Cloudflare が受けたリクエストを、既に確立されたトンネル経由で通知・転送する</li>
+      </ul>
+      <p>この構成では、訪問者がアクセスする先は Cloudflare となり、Cloudflare は受けたリクエストをトンネル経由で Raspberry Pi の <code>cloudflared</code> に渡します。<br /><code>cloudflared</code> はローカルの Nginx（<code>127.0.0.1:8080</code>）に転送し、Nginx が HTML や画像を返します。</p>
+      <p>自宅サーバーを外部へ直接公開する場合は、ルーターのポート開放や、<br />外部から到達してもらうためのグローバルIPの管理（固定IPまたはDDNS）が必要になることが多いです。<br />Cloudflare Tunnel を使うと、こうした自宅回線側の公開設定に頼らずに公開しやすくなります。</p>
+      <h2 id="開発環境">開発環境</h2>
+      <p>同一 LAN 内の Windowsマシン から Raspberry Pi に SSH接続</p>
+      <ul>
+        <li>SSH は公開鍵認証のみ</li>
+        <li><code>ufw</code> (ファイアウォール)を有効化し、LAN 内からの SSH接続以外を全て遮断</li>
+      </ul>
     </main>
 
-    <footer>
-      <small>&copy; 2026 My Study Site</small>
+    <footer class="footer">
+      <div>panda-dev.net</div>
     </footer>
   </div>
 </body>

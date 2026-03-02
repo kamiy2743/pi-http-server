@@ -3,10 +3,15 @@ from diagrams.onprem.client import Users
 from diagrams.onprem.network import Nginx
 from diagrams.saas.cdn import Cloudflare
 from diagrams.onprem.compute import Server
+from pathlib import Path
+
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+OUTPUT_BASE = ROOT_DIR / "public" / "diagram-tunnel"
 
 with Diagram(
     "",
-    filename="/home/kamiy2743/workspace/http-server/public/diagram-tunnel",
+    filename=str(OUTPUT_BASE),
     outformat="png",
     show=False,
     direction="LR",

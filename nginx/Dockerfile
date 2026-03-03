@@ -2,11 +2,15 @@ FROM python:3.12-alpine AS builder
 
 WORKDIR /app
 
-RUN apk add --no-cache bash graphviz
+RUN apk add --no-cache \
+    bash \
+    graphviz \
+    fontconfig \
+    font-noto-cjk
 
 COPY requirements.txt ./requirements.txt
 RUN python3 -m venv .venv \
- && .venv/bin/pip install --no-cache-dir -r requirements.txt
+ && .venv/bin/pip install --no-cache-dir --retries 5 --timeout 120 -r requirements.txt
 
 COPY content ./content
 COPY public ./public

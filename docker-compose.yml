@@ -3,7 +3,6 @@ services:
     build:
       context: ./
       dockerfile: ./nginx/Dockerfile
-    user: "nginx:nginx"
     cap_drop:
       - ALL
     security_opt:

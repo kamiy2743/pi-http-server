@@ -24,3 +24,5 @@ FROM nginx:1.27-alpine
 
 COPY ./nginx/http-server.conf /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/public/ /usr/share/nginx/html/
+
+USER nginx:nginx

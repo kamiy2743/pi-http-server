@@ -1,0 +1,7 @@
+**
+!content/
+!nginx/
+!public/
+!scripts/
+!build.sh
+!requirements.txt

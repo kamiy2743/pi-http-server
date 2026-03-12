@@ -1,0 +1,4 @@
+ingress:
+  - hostname: http-server.panda-dev.net
+    service: http://nginx:8000
+  - service: http_status:404

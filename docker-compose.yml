@@ -9,7 +9,6 @@ services:
       - no-new-privileges:true
     read_only: true
     tmpfs:
-      - /tmp/
       - /run/:rw,uid=101,gid=101,mode=0755
       - /var/cache/nginx/:rw,uid=101,gid=101,mode=0755
     networks:
@@ -26,8 +25,6 @@ services:
     security_opt:
       - no-new-privileges:true
     read_only: true
-    tmpfs:
-      - /tmp/
     networks:
       - private
       - egress

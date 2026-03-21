@@ -17,8 +17,7 @@ COPY ./public/ ./public/
 COPY ./scripts/ ./scripts/
 
 COPY ./build.sh ./build.sh
-RUN chmod +x ./build.sh \
- && ./build.sh
+RUN ./build.sh
 
 FROM nginx:1.27-alpine
 
